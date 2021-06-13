@@ -3,7 +3,7 @@ import requests
 import json
 import os
 
-RESPOND_TO_UNKNOWN_MESSAGE = True
+RESPOND_TO_UNKNOWN_MESSAGE = False
 
 client = discord.Client()
 
@@ -34,7 +34,9 @@ async def on_message(message):
     elif message.content.lower() in message_types['new_task']:
         await message.channel.send(f"Copy that! I'll add this to your to do list, {message.author.name}!")
 
-    elif RESPOND_TO_UNKNOWN_MESSAGE:
+    elif RESPOND_TO_UNKNOWN_MESSAGE:  # Togle weather or not to respond to unknown messages
+
+        # Just using format here because I think I should
         await message.channel.send("Sorry, I don't recognize \"{0}\"".format(message.content))
 
 # Get OAuth Token
