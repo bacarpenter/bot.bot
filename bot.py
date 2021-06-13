@@ -1,5 +1,5 @@
 from typing import Dict
-from todoList import addTodo
+from todoList import addTodo, readAll, readTodo
 import discord
 import os
 from enum import Enum
@@ -9,12 +9,16 @@ class MessageType(Enum):
     HELLO = 0
     BYE = 1
     NEW_TASK = 2
+    THANKS = 3
+    READ = 4
 
 
 message_types = {
     "hello": ["hi", "hello", "howdy", "hey", "greetings"],
     "bye": ["bye", "latter", "goodnight", "ttyl", "see you soon"],
-    "new_task": ["Add a to do", "new todo", "todo", "remind me", "to do"],
+    "new_task": ["add a to do", "new todo", "todo", "remind me", "to do"],
+    "thanks": ["thanks", "thank you", "thx", "thanks"],
+    "read": ["what are my todos", "read all", "what's todo"],
 }
 RESPOND_TO_UNKNOWN_MESSAGE = True
 
@@ -42,9 +46,21 @@ async def on_message(message) -> None:
     elif parsed['command'] == MessageType.BYE:
         await message.channel.send(f"I'll talk to you later, {message.author.name}!")
 
+    elif parsed['command'] == MessageType.THANKS:
+        await message.channel.send(f"My pleasure! 🥳")
+
+    elif parsed['command'] == MessageType.READ:
+        tasks = readAll()
+        await message.channel.send(f"Here's you're todos:")
+        for task in tasks:
+            await message.channel.send(
+                f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }")
+
     elif parsed['command'] == MessageType.NEW_TASK:
-        addTodo(parsed['value'])
+        id = addTodo(parsed['value'])
         await message.channel.send(f"Copy that! I'll add this to your to do list, {message.author.name}!")
+        task = readTodo(id)
+        await message.channel.send(f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }")
 
     elif RESPOND_TO_UNKNOWN_MESSAGE:  # Toggle weather or not to respond to unknown messages
         # Just using format here because I want to
@@ -70,6 +86,14 @@ def parseMessage(message) -> Dict:
             parsed['command'] = MessageType.BYE
             parsed['value'] = None
             return parsed
+        elif cmd.lower() in message_types['thanks']:
+            parsed['command'] = MessageType.THANKS
+            parsed['value'] = None
+            return parsed
+        elif cmd.lower() in message_types['read']:
+            parsed['command'] = MessageType.READ
+            parsed['value'] = None
+            return parsed
         else:
             return None
 
@@ -79,6 +103,10 @@ def parseMessage(message) -> Dict:
         parsed['command'] = MessageType.BYE
     elif cmd.lower() in message_types['new_task']:
         parsed['command'] = MessageType.NEW_TASK
+    elif cmd.lower() in message_types['thanks']:
+        parsed['command'] = MessageType.THANKS
+    elif cmd.lower() in message_types['read']:
+        parsed['command'] = MessageType.READ
     else:
         return None
 
