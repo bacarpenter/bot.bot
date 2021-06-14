@@ -1,16 +1,8 @@
 from typing import Dict
 from features.todoList import addTodo, readAll, readTodo
+from messageTypes import MessageType
 import discord
 import os
-from enum import Enum
-
-
-class MessageType(Enum):
-    HELLO = 0
-    BYE = 1
-    NEW_TASK = 2
-    THANKS = 3
-    READ = 4
 
 
 message_types = {
