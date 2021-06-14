@@ -1,5 +1,5 @@
 from typing import Dict
-from todoList import addTodo, readAll, readTodo
+from features.todoList import addTodo, readAll, readTodo
 import discord
 import os
 from enum import Enum
