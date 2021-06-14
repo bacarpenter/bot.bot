@@ -71,6 +71,11 @@ Return message as a dict with a command and the value
 """
 
 
+@client.event  # Get Emoji
+async def on_raw_reaction_add(reaction):
+    pass  # TODO and BUG
+
+
 def parseMessage(message) -> Dict:
     parsed = {}
     cmd = None
