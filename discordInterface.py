@@ -16,6 +16,10 @@ async def on_ready():
 @client.event
 async def on_message(message) -> None:
     """Main method, very similar to a game loop"""
+
+    if message.author == client.user:
+        return
+
     # Get response from bot
     responses = bot.respond(message.content)
     for response in responses:

@@ -7,6 +7,7 @@ class MessageType(Enum):
     NEW_TASK = 2
     THANKS = 3
     READ = 4
+    COMPLETE = 5
 
 
 message_types = {
@@ -15,7 +16,8 @@ message_types = {
     MessageType.BYE: ["bye", "latter", "goodnight", "ttyl", "see you soon"],
     MessageType.NEW_TASK: ["add a to do", "new todo", "todo", "remind me", "to do"],
     MessageType.THANKS: ["thanks", "thank you", "thx", "thanks"],
-    MessageType.READ: ["what are my todos", "read all", "what's todo"],
+    MessageType.READ: ["what are my todos?", "read all", "what's todo", "what's on my todo list?"],
+    MessageType.COMPLETE: ["complete", "done", "finish"],
 }
 
 
@@ -25,6 +27,8 @@ def assignType(message: str) -> MessageType:
     if ":" in message:
         if message[0:message.index(":")] in message_types[MessageType.NEW_TASK]:
             return MessageType.NEW_TASK
+        if message[0:message.index(":")] in message_types[MessageType.COMPLETE]:
+            return MessageType.COMPLETE
     elif message in message_types[MessageType.HELLO]:
         return MessageType.HELLO
     elif message in message_types[MessageType.BYE]:
