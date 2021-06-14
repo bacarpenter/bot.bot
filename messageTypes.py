@@ -21,7 +21,8 @@ message_types = {
 
 def assignType(message: str) -> MessageType:
     """Return the type of the message, or None if message is unknown """
-    if message.index(":") is not None:
+
+    if ":" in message:
         if message[0:message.index(":")] in message_types[MessageType.NEW_TASK]:
             return MessageType.NEW_TASK
     elif message in message_types[MessageType.HELLO]:
