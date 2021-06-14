@@ -4,7 +4,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 # Init access to db
-cred = credentials.Certificate("secrets/bot-bot-firebase-adminsdk.json")
+cred = credentials.Certificate("secrets/firebase-adminsdk.json")
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
