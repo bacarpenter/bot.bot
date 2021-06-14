@@ -41,4 +41,4 @@ def readAll() -> List:
 
 def complete(id: int) -> None:
     todo_ref = db.collection('tasks').document(f"task#{id}")
-    todo_ref.set({'done': True, })
+    todo_ref.set({'done': True, }, merge=True)
