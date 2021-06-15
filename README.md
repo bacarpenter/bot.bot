@@ -1,6 +1,6 @@
 # bot.bot
 
-A chatbot based todolist and buddy
+A chatbot based todolist and buddy, built to facilitate other features over time.
 
 ## Usage
 
@@ -15,7 +15,7 @@ First, you will need to download the code and install the dependencies.
 
 ### Step 2: Data base
 
-Next, we will set up a data base for your todos. This will be done with firebase, becuse it is free and I like it. If you haven't already, sign up for [firebase](https://firebase.google.com)
+Next, we will set up a data base for your todos. This will be done with firebase, because it is free and I like it. If you haven't already, sign up for [firebase](https://firebase.google.com)
 
 1. Create a project in the dashboard. I named mine bot.bot
 2. In the project, select Firestore Database from the side bar. Select create database. Chose a location close to you, as this database will only house your data. When asked for security rules, select start in production mode. You won't need to worry about security rules for this.
@@ -30,4 +30,10 @@ Phew, now the database should be setup!
 
 ### Step 3: Discord
 
-THIS GUIDE IS NOT DONE. WILL BE FINISHED LATER
+To set up the discord bot, please follow [this](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/) tutorial, up until the heading "How to Code a Basic Discord Bot with the discord.py Library". Save the token.
+
+With the bot created, now, you need to set the environment variable, to let the python script access the bot. Do this by running `export TOKEN=[your_token]` where `[your_token]` is the token you copied. Then, to start the bot, you can run `python3 discordInterface.py`
+
+### Step 4: Hosting
+
+You will probably want to host your bot online. While this can be done anywhere that let's you write python code, I am doing it through [repl.it](https://replit.com), and using one of my always on projects on my Hacker plan.
