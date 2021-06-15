@@ -8,10 +8,11 @@ Setting up the bot takes 4 steps. You only need to complete step 1 if you don't 
 
 ### Step 1: Basics
 
-First, you will need to download the code and install the dependencies.
+First, you will need to download the code and install the dependencies. Then, you will change some settings.
 
 1. `git clone https://github.com/bacarpenter/bot.bot.git` clones the code onto your machine.
 2. `pip install -r requirements.txt` installs the dependance. Note: I suggest that you use a venv to do this.
+3. In the `settings.json`file, update the name that you want to bot to refer to you by. Mine is bacarp04. Then, you can change weather or not the bot should respond to messages it doesn't understand.
 
 ### Step 2: Data base
 
