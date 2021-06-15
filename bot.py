@@ -2,7 +2,13 @@ from features.todoList import addTodo, readAll, readTodo, complete as comp
 from typing import List
 from messageTypes import MessageType, assignType
 
-RESPOND_TO_UNKNOWN_MESSAGE = True
+import json
+
+# Load settings from JSON
+with open("settings.json") as settingsJSON:
+    settings = json.load(settingsJSON)
+
+RESPOND_TO_UNKNOWN_MESSAGE = settings['reply_to_unknown']
 
 
 def respond(message) -> List:
@@ -34,17 +40,18 @@ def respond(message) -> List:
 
 
 def hello(message: str) -> List:
-    return ["Hello, bcarp04!"]
+    return [f"Hello, {settings['user_name']}!"]
 
 
 def bye(message: str) -> List:
-    return ["I'll talk to you later, bcarp04"]
+    return [f"I'll talk to you later, {settings['user_name']}"]
 
 
 def new_task(message: str) -> List:
     rList = []
     id = addTodo(message[message.index(":") + 2:])
-    rList.append(f"Copy that! I'll add this to your to do list, bcarp04!")
+    rList.append(
+        f"Copy that! I'll add this to your to do list, {settings['user_name']}!")
     task = readTodo(id)
     rList.append(
         f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }")
