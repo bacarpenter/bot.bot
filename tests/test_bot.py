@@ -27,3 +27,19 @@ class TestConversation(unittest.TestCase):
         }
         result = bot.respond("thank you")
         self.assertEqual(result, ["my pleasure! 🥳"])
+
+    def test_reply_unknown(self):
+        bot.settings = {
+            "user_name": "user",
+            "reply_to_unknown": True
+        }
+        result = bot.respond("1234")
+        self.assertEqual(result, ["Sorry, I don't understand \"1234\""])
+
+    def test_no_reply_unknown(self):
+        bot.settings = {
+            "user_name": "user",
+            "reply_to_unknown": False
+        }
+        result = bot.respond("1234")
+        self.assertEqual(result, [])

@@ -8,8 +8,6 @@ import json
 with open("settings.json") as settings_JSON:
     settings = json.load(settings_JSON)
 
-RESPOND_TO_UNKNOWN_MESSAGE = settings['reply_to_unknown']
-
 
 def respond(message) -> List:
     """
@@ -21,7 +19,7 @@ def respond(message) -> List:
     message_type = assign_type(message)
 
     if message_type is None:
-        if RESPOND_TO_UNKNOWN_MESSAGE:
+        if settings['reply_to_unknown']:
             response = [f"Sorry, I don't understand \"{message}\""]
         else:
             response = []
