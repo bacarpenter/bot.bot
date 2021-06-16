@@ -1,4 +1,6 @@
-from features.todo_list import add_todo, read_all, read_todo, complete as comp
+# Copyright (C) Ben Carpenter, 2021. Licensed under the MIT license.
+
+import features.todo_list
 import features.pleasantries
 from typing import List
 from message_types import MessageType, assign_type
@@ -29,38 +31,10 @@ def respond(message) -> List:
     response_methods = {
         MessageType.HELLO: features.pleasantries.hello,
         MessageType.BYE: features.pleasantries.bye,
-        MessageType.NEW_TASK: new_task,
+        MessageType.NEW_TASK: features.todo_list.new_task,
         MessageType.THANKS: features.pleasantries.thanks,
-        MessageType.READ: read,
-        MessageType.COMPLETE: complete,
+        MessageType.READ: features.todo_list.read,
+        MessageType.COMPLETE: features.todo_list.complete,
     }
 
     return response_methods[message_type](message, settings)
-
-
-def new_task(message: str, settings) -> List:
-    rList = []
-    id = add_todo(message[message.index(":") + 2:])
-    rList.append(
-        f"Copy that! I'll add this to your to do list, {settings['user_name']}!")
-    task = read_todo(id)
-    rList.append(
-        f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }")
-    return rList
-
-
-def read(message: str, settings) -> List:
-    rList = []
-    tasks = read_all()
-    rList.append(f"Here's you're todos:")
-    for task in tasks:
-        rList.append(
-            f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }")
-
-    return rList
-
-
-def complete(message: str, settings) -> List:
-    comp(int(message[message.index(":") + 2:]))
-    task = read_todo(int(message[message.index(":") + 2:]))
-    return ["Got it!", f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }"]

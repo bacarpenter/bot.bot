@@ -1,3 +1,4 @@
+# Copyright (C) Ben Carpenter, 2021. Licensed under the MIT license.
 import unittest
 import bot
 
