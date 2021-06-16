@@ -1,4 +1,5 @@
 from features.todo_list import add_todo, read_all, read_todo, complete as comp
+import features.pleasantries
 from typing import List
 from message_types import MessageType, assign_type
 
@@ -26,26 +27,18 @@ def respond(message) -> List:
         return response
 
     response_methods = {
-        MessageType.HELLO: hello,
-        MessageType.BYE: bye,
+        MessageType.HELLO: features.pleasantries.hello,
+        MessageType.BYE: features.pleasantries.bye,
         MessageType.NEW_TASK: new_task,
-        MessageType.THANKS: thanks,
+        MessageType.THANKS: features.pleasantries.thanks,
         MessageType.READ: read,
         MessageType.COMPLETE: complete,
     }
 
-    return response_methods[message_type](message)
+    return response_methods[message_type](message, settings)
 
 
-def hello(message: str) -> List:
-    return [f"Hello, {settings['user_name']}!"]
-
-
-def bye(message: str) -> List:
-    return [f"I'll talk to you later, {settings['user_name']}"]
-
-
-def new_task(message: str) -> List:
+def new_task(message: str, settings) -> List:
     rList = []
     id = add_todo(message[message.index(":") + 2:])
     rList.append(
@@ -56,11 +49,7 @@ def new_task(message: str) -> List:
     return rList
 
 
-def thanks(message: str) -> List:
-    return ["my pleasure! 🥳"]
-
-
-def read(message: str) -> List:
+def read(message: str, settings) -> List:
     rList = []
     tasks = read_all()
     rList.append(f"Here's you're todos:")
@@ -71,7 +60,7 @@ def read(message: str) -> List:
     return rList
 
 
-def complete(message: str) -> List:
+def complete(message: str, settings) -> List:
     comp(int(message[message.index(":") + 2:]))
     task = read_todo(int(message[message.index(":") + 2:]))
     return ["Got it!", f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }"]
