@@ -21,7 +21,7 @@ message_types = {
 }
 
 
-def assignType(message: str) -> MessageType:
+def assign_type(message: str) -> MessageType:
     """Return the type of the message, or None if message is unknown """
 
     if ":" in message:

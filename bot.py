@@ -1,12 +1,12 @@
-from features.todoList import addTodo, readAll, readTodo, complete as comp
+from features.todoList import add_todo, read_all, read_todo, complete as comp
 from typing import List
-from messageTypes import MessageType, assignType
+from messageTypes import MessageType, assign_type
 
 import json
 
 # Load settings from JSON
-with open("settings.json") as settingsJSON:
-    settings = json.load(settingsJSON)
+with open("settings.json") as settings_JSON:
+    settings = json.load(settings_JSON)
 
 RESPOND_TO_UNKNOWN_MESSAGE = settings['reply_to_unknown']
 
@@ -18,9 +18,9 @@ def respond(message) -> List:
     as a "disbatch" station, for context specific methods. That way, I can avoid a very
     long elif statement, and seporate out functions.
     """
-    messageType = assignType(message)
+    message_type = assign_type(message)
 
-    if messageType is None:
+    if message_type is None:
         if RESPOND_TO_UNKNOWN_MESSAGE:
             response = [f"Sorry, I don't understand \"{message}\""]
         else:
@@ -36,7 +36,7 @@ def respond(message) -> List:
         MessageType.COMPLETE: complete,
     }
 
-    return response_methods[messageType](message)
+    return response_methods[message_type](message)
 
 
 def hello(message: str) -> List:
@@ -49,10 +49,10 @@ def bye(message: str) -> List:
 
 def new_task(message: str) -> List:
     rList = []
-    id = addTodo(message[message.index(":") + 2:])
+    id = add_todo(message[message.index(":") + 2:])
     rList.append(
         f"Copy that! I'll add this to your to do list, {settings['user_name']}!")
-    task = readTodo(id)
+    task = read_todo(id)
     rList.append(
         f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }")
     return rList
@@ -64,7 +64,7 @@ def thanks(message: str) -> List:
 
 def read(message: str) -> List:
     rList = []
-    tasks = readAll()
+    tasks = read_all()
     rList.append(f"Here's you're todos:")
     for task in tasks:
         rList.append(
@@ -75,5 +75,5 @@ def read(message: str) -> List:
 
 def complete(message: str) -> List:
     comp(int(message[message.index(":") + 2:]))
-    task = readTodo(int(message[message.index(":") + 2:]))
+    task = read_todo(int(message[message.index(":") + 2:]))
     return ["Got it!", f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }"]
