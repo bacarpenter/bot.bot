@@ -1,5 +1,5 @@
 from typing import Dict
-from features.todoList import addTodo, readAll, readTodo
+from features.todoList import add_todo, read_all, read_todo
 from messageTypes import MessageType
 import discord
 import bot

@@ -10,27 +10,27 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 
-def addTodo(task: str) -> int:
+def add_todo(task: str) -> int:
     # Get next todo id
-    nextId = int(db.collection('counter').document(
+    next_id = int(db.collection('counter').document(
         'counter').get().to_dict()['counter']) + 1
 
     # Create a new todo entry
-    todo_ref = db.collection('tasks').document(f"task#{nextId}")
-    todo_ref.set({'task': task, 'done': False, 'id': nextId})
+    todo_ref = db.collection('tasks').document(f"task#{next_id}")
+    todo_ref.set({'task': task, 'done': False, 'id': next_id})
 
     # +1 to counter
-    db.collection('counter').document('counter').set({'counter': nextId})
+    db.collection('counter').document('counter').set({'counter': next_id})
 
-    return nextId
+    return next_id
 
 
-def readTodo(id: int) -> Dict:
+def read_todo(id: int) -> Dict:
     todo_ref = db.collection('tasks').document(f"task#{id}").get().to_dict()
     return todo_ref
 
 
-def readAll() -> List:
+def read_all() -> List:
     todos_ref = db.collection('tasks').stream()
     todos = []
     for todo in todos_ref:
