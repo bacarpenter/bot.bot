@@ -46,7 +46,7 @@ def db_read_all() -> List:
     for todo in todos_ref:
         todos.append(todo.to_dict())
 
-    todos.sort()
+    todos.sort(key=lambda i: i['time_stamp'])
     return todos
 
 
