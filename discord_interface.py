@@ -1,6 +1,5 @@
+import json
 from typing import Dict
-from features.todoList import add_todo, read_all, read_todo
-from messageTypes import MessageType
 import discord
 import bot
 import os
@@ -31,14 +30,16 @@ async def on_raw_reaction_add(reaction):
     pass  # TODO and BUG
 
 
-# Get OAuth Token
+# Load OAuth from JSON
 try:
-    TOKEN = os.getenv("TOKEN")
-    if TOKEN is None:
-        raise EnvironmentError
-except EnvironmentError:
-    print("ERROR: Cant find environment variable. Is $TOKEN set?")
+    with open("secrets/discord_token.json") as settings_JSON:
+        TOKEN = json.load(settings_JSON)["token"]
+except FileNotFoundError:
+    print("Error: Could not open secrets/discord_token.json Is it there?")
     exit(1)
+except KeyError:
+    print("Error: secrets/discord_token.json does not have a token object.")
+    exit(2)
 
 
 client.run(TOKEN)
