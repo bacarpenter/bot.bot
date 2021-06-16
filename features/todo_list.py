@@ -11,15 +11,21 @@ firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
+# Data base functions
+
 
 def db_add_todo(task: str) -> int:
+    """Add an entry to the db"""
     # Get next todo id
     next_id = int(db.collection('counter').document(
         'counter').get().to_dict()['counter']) + 1
 
     # Create a new todo entry
     todo_ref = db.collection('tasks').document(f"task#{next_id}")
-    todo_ref.set({'task': task, 'done': False, 'id': next_id})
+    todo_ref.set({'task': task,
+                  'done': False,
+                  'id': next_id,
+                  'time_stamp': firestore.SERVER_TIMESTAMP})
 
     # +1 to counter
     db.collection('counter').document('counter').set({'counter': next_id})
@@ -28,24 +34,33 @@ def db_add_todo(task: str) -> int:
 
 
 def db_read_todo(id: int) -> Dict:
+    """Read the document with given ID from the database. Return it as a dict"""
     todo_ref = db.collection('tasks').document(f"task#{id}").get().to_dict()
     return todo_ref
 
 
 def db_read_all() -> List:
+    """Read all documents from the db. Return as a list of dicts"""
     todos_ref = db.collection('tasks').stream()
     todos = []
     for todo in todos_ref:
         todos.append(todo.to_dict())
 
+    todos.sort(key=lambda i: i['time_stamp'])
     return todos
 
 
 def db_complete(id: int) -> None:
+    """Mark the entry with given id as complete."""
     todo_ref = db.collection('tasks').document(f"task#{id}")
     todo_ref.set({'done': True, }, merge=True)
 
-# Conversational responces
+
+def db_delete(id: int) -> None:
+    """Delete document of given id from DB"""
+    db.collection('tasks').document(f"task#{id}").delete()
+
+# Bot responce functions
 
 
 def new_task(message: str, settings) -> List:
