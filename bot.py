@@ -1,6 +1,6 @@
-from features.todoList import add_todo, read_all, read_todo, complete as comp
+from features.todo_list import add_todo, read_all, read_todo, complete as comp
 from typing import List
-from messageTypes import MessageType, assign_type
+from message_types import MessageType, assign_type
 
 import json
 
