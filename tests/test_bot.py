@@ -44,3 +44,40 @@ class TestPleasantries(unittest.TestCase):
         }
         result = bot.respond("1234")
         self.assertEqual(result, [])
+
+
+class TestTodo(unittest.TestCase):
+    task_id = None
+
+    def test_add(self):
+        bot.settings = {
+            "user_name": "user",
+            "reply_to_unknown": True
+        }
+        result = bot.respond("todo: TEST_TODO")
+        # Thank you to this user https://stackoverflow.com/a/36434101/13013466
+        task_id = int(''.join(filter(str.isdigit, result[1])))
+        self.assertEqual(
+            result[0], "Copy that! I'll add this to your to do list, user!")
+        self.assertEqual(len(result), 2)
+        print(task_id)
+
+    # def test_read(self):
+    #     bot.settings = {
+    #         "user_name": "user",
+    #         "reply_to_unknown": True
+    #     }
+    #     result = bot.respond("read all")
+    #     self.assertTrue()
+
+    # def test_complete(self):
+    #     bot.settings = {
+    #         "user_name": "user",
+    #         "reply_to_unknown": True
+    #     }
+
+    # def test_remove(self):
+    #     bot.settings = {
+    #         "user_name": "user",
+    #         "reply_to_unknown": True
+    #     }
