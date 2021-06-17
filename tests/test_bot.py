@@ -2,6 +2,15 @@
 import unittest
 import bot
 
+# From this post! Thank you. https://stackoverflow.com/a/11158224/13013466
+import os
+import sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+
+import features.todo_list
+
 
 class TestPleasantries(unittest.TestCase):
     def test_0hello(self):
@@ -99,3 +108,6 @@ class TestTodo(unittest.TestCase):
         result = bot.respond("read all")
         self.assertNotEqual(
             result[-1], f"Task #{task_id}: TEST_TODO     Status: todo")
+
+        # Clear counter to keep things clean
+        features.todo_list.db_counter_decrement()
