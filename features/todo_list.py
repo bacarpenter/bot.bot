@@ -89,3 +89,8 @@ def complete(message: str, settings) -> List:
     db_complete(int(message[message.index(":") + 2:]))
     task = db_read_todo(int(message[message.index(":") + 2:]))
     return ["Got it!", f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }"]
+
+
+def delete(message: str, settings) -> List:
+    db_delete(int(message[message.index(":") + 2:]))
+    return [f"Done. Task #{int(message[message.index(':') + 2:])} was deleted"]

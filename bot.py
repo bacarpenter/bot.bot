@@ -35,6 +35,7 @@ def respond(message) -> List:
         MessageType.THANKS: features.pleasantries.thanks,
         MessageType.READ: features.todo_list.read,
         MessageType.COMPLETE: features.todo_list.complete,
+        MessageType.DELETE: features.todo_list.delete,
     }
 
     return response_methods[message_type](message, settings)
