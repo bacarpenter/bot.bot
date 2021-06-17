@@ -88,8 +88,14 @@ class TestTodo(unittest.TestCase):
         self.assertEqual(
             result[-1], f"Task #{task_id}: TEST_TODO\tStatus: done")
 
-    # def test_remove(self):
-    #     bot.settings = {
-    #         "user_name": "user",
-    #         "reply_to_unknown": True
-    #     }
+    def test_3remove(self):
+        bot.settings = {
+            "user_name": "user",
+            "reply_to_unknown": True
+        }
+        result = bot.respond(f"del: {task_id}")
+        self.assertEqual(result, [f"Done. Task #{task_id} was deleted"])
+
+        result = bot.respond("read all")
+        self.assertNotEqual(
+            result[-1], f"Task #{task_id}: TEST_TODO     Status: todo")
