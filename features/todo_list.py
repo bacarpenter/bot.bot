@@ -60,6 +60,11 @@ def db_delete(id: int) -> None:
     """Delete document of given id from DB"""
     db.collection('tasks').document(f"task#{id}").delete()
 
+
+def db_counter_decrement() -> None:
+    """Decrement counter for use by testing"""
+    db.collection('counter').document('counter').set({'counter': 0})
+
 # Bot responce functions
 
 
