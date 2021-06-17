@@ -3,7 +3,7 @@ import unittest
 import bot
 
 
-class TestConversation(unittest.TestCase):
+class TestPleasantries(unittest.TestCase):
     def test_hello(self):
         # Force settings for testing constancy
         bot.settings = {
