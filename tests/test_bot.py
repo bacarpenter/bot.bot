@@ -47,9 +47,10 @@ class TestPleasantries(unittest.TestCase):
 
 
 class TestTodo(unittest.TestCase):
-    task_id = None
+    task_id = -1
 
     def test_add(self):
+        global task_id
         bot.settings = {
             "user_name": "user",
             "reply_to_unknown": True
@@ -62,13 +63,14 @@ class TestTodo(unittest.TestCase):
         self.assertEqual(len(result), 2)
         print(task_id)
 
-    # def test_read(self):
-    #     bot.settings = {
-    #         "user_name": "user",
-    #         "reply_to_unknown": True
-    #     }
-    #     result = bot.respond("read all")
-    #     self.assertTrue()
+    def test_read(self):
+        bot.settings = {
+            "user_name": "user",
+            "reply_to_unknown": True
+        }
+        result = bot.respond("read all")
+        self.assertEqual(
+            result[-1], f"Task #{task_id}: TEST_TODO\tStatus: todo")
 
     # def test_complete(self):
     #     bot.settings = {
