@@ -11,6 +11,9 @@ firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
+# Change to change format. Keep id, task, and status
+todo_template = "**Task {id}:** {task} | *Status: {status}*"
+
 # Data base functions
 
 
@@ -74,8 +77,10 @@ def new_task(message: str, settings) -> List:
     rList.append(
         f"Copy that! I'll add this to your to do list, {settings['user_name']}!")
     task = db_read_todo(id)
-    rList.append(
-        f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }")
+    # rList.append(
+    #     f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }")
+    rList.append(todo_template.format(
+        id=id, task=task['task'], status='done' if task['done'] else 'todo'))
     return rList
 
 
@@ -84,8 +89,8 @@ def read(message: str, settings) -> List:
     tasks = db_read_all()
     rList.append(f"Here's you're todos:")
     for task in tasks:
-        rList.append(
-            f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }")
+        rList.append(todo_template.format(
+            id=task['id'], task=task['task'], status='done' if task['done'] else 'todo'))
 
     return rList
 
@@ -93,9 +98,10 @@ def read(message: str, settings) -> List:
 def complete(message: str, settings) -> List:
     db_complete(int(message[message.index(":") + 2:]))
     task = db_read_todo(int(message[message.index(":") + 2:]))
-    return ["Got it!", f"Task #{task['id']}: {task['task']}\tStatus: {'done' if task['done'] else 'todo' }"]
+    return ["Got it!", todo_template.format(
+            id=task['id'], task=task['task'], status='done' if task['done'] else 'todo')]
 
 
 def delete(message: str, settings) -> List:
     db_delete(int(message[message.index(":") + 2:]))
-    return [f"Done. Task #{int(message[message.index(':') + 2:])} was deleted"]
+    return [f"Done. Task {int(message[message.index(':') + 2:])} was deleted"]
