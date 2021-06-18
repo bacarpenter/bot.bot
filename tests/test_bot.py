@@ -1,6 +1,6 @@
 # Copyright (C) Ben Carpenter, 2021. Licensed under the MIT license.
+import features.todo_list
 import unittest
-import bot
 
 # From this post! Thank you. https://stackoverflow.com/a/11158224/13013466
 import os
@@ -8,8 +8,7 @@ import sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
-
-import features.todo_list
+import bot
 
 
 class TestPleasantries(unittest.TestCase):
@@ -111,3 +110,16 @@ class TestTodo(unittest.TestCase):
 
         # Clear counter to keep things clean
         features.todo_list.db_counter_decrement()
+
+
+class TestInfo(unittest.TestCase):
+    def test_0info(self):
+        bot.settings = {
+            "user_name": "user",
+            "reply_to_unknown": True
+        }
+        result = bot.respond("info")
+        hello = "Hello! I'm bot.bot, an extendable bot built by Ben Carpenter for use with Discord."
+        commands = "You can ask me to do things like add a `todo: [TASK]`, `complete: [TASK_ID]` or just exchange some pleasantries."
+        link = "Check me out on GitHub! https://github.com/bacarpenter/bot.bot"
+        self.assertEqual(result, [hello, commands, link])
