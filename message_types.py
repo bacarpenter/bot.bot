@@ -10,6 +10,7 @@ class MessageType(Enum):
     READ = 4
     COMPLETE = 5
     DELETE = 6
+    INFO = 7
 
 
 message_types = {
@@ -19,7 +20,8 @@ message_types = {
     MessageType.THANKS: ["thanks", "thank you", "thx", "thanks"],
     MessageType.READ: ["what are my todos?", "read all", "what's todo", "what's on my todo list?", ],
     MessageType.COMPLETE: ["complete", "done", "finish"],
-    MessageType.DELETE: ["delete", "delete todo", "del"]
+    MessageType.DELETE: ["delete", "delete todo", "del"],
+    MessageType.INFO: ["info", "help", "who are you?", "what is this?"]
 }
 
 
@@ -41,5 +43,7 @@ def assign_type(message: str) -> MessageType:
         return MessageType.THANKS
     elif message in message_types[MessageType.READ]:
         return MessageType.READ
+    elif message in message_types[MessageType.INFO]:
+        return MessageType.INFO
     else:
         return None

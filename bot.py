@@ -2,6 +2,7 @@
 
 import features.todo_list
 import features.pleasantries
+import features.info
 from typing import List
 from message_types import MessageType, assign_type
 
@@ -36,6 +37,7 @@ def respond(message) -> List:
         MessageType.READ: features.todo_list.read,
         MessageType.COMPLETE: features.todo_list.complete,
         MessageType.DELETE: features.todo_list.delete,
+        MessageType.INFO: features.info.info,
     }
 
     return response_methods[message_type](message, settings)
