@@ -75,7 +75,6 @@ def db_clear_list() -> None:
 
     # From firebase SDK, https://firebase.google.com/docs/firestore/manage-data/delete-data#python
     for doc in docs:
-        print(f'Deleting doc {doc.id} => {doc.to_dict()}')
         doc.reference.delete()
 
     db.collection('counter').document('counter').set({'counter': 0})
