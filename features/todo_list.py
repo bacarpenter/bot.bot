@@ -66,6 +66,18 @@ def db_delete(id: int) -> None:
 
 def db_counter_decrement() -> None:
     """Decrement counter for use by testing"""
+    db.collection('counter').document('counter').set({'counter': int(db.collection('counter').document(
+        'counter').get().to_dict()['counter']) - 1})
+
+
+def db_clear_list() -> None:
+    docs = db.collection('tasks').stream()
+
+    # From firebase SDK, https://firebase.google.com/docs/firestore/manage-data/delete-data#python
+    for doc in docs:
+        print(f'Deleting doc {doc.id} => {doc.to_dict()}')
+        doc.reference.delete()
+
     db.collection('counter').document('counter').set({'counter': 0})
 
 # Bot responce functions
@@ -105,3 +117,8 @@ def complete(message: str, settings) -> List:
 def delete(message: str, settings) -> List:
     db_delete(int(message[message.index(":") + 2:]))
     return [f"Done. Task {int(message[message.index(':') + 2:])} was deleted"]
+
+
+def clear_list(message: str, settings) -> List:
+    db_clear_list()
+    return[f"Done! {settings['user_name']}, your todo list has been cleared"]

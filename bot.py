@@ -12,6 +12,8 @@ import json
 with open("settings.json") as settings_JSON:
     settings = json.load(settings_JSON)
 
+next_require_confirmation: bool = False
+
 
 def respond(message) -> List:
     """
@@ -38,6 +40,7 @@ def respond(message) -> List:
         MessageType.COMPLETE: features.todo_list.complete,
         MessageType.DELETE: features.todo_list.delete,
         MessageType.INFO: features.info.info,
+        MessageType.CLEAR_LIST: features.todo_list.clear_list
     }
 
     return response_methods[message_type](message, settings)
