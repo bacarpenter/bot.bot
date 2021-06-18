@@ -1,4 +1,5 @@
 # Copyright (C) Ben Carpenter, 2021. Licensed under the MIT license.
+import bot
 import features.todo_list
 import unittest
 
@@ -8,7 +9,6 @@ import sys
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
-import bot
 
 
 class TestPleasantries(unittest.TestCase):
@@ -77,7 +77,7 @@ class TestTodo(unittest.TestCase):
         }
         result = bot.respond("read all")
         self.assertEqual(
-            result[-1], f"Task #{task_id}: TEST_TODO\tStatus: todo")
+            result[-1], f"**Task {task_id}:** TEST_TODO | *Status: todo*")
 
     def test_2complete(self):
         bot.settings = {
@@ -86,15 +86,15 @@ class TestTodo(unittest.TestCase):
         }
         result = bot.respond("read all")
         self.assertEqual(
-            result[-1], f"Task #{task_id}: TEST_TODO\tStatus: todo")  # Make sure it's not already done
+            result[-1], f"**Task {task_id}:** TEST_TODO | *Status: todo*")  # Make sure it's not already done
 
         result = bot.respond(f"complete: {task_id}")
         self.assertEqual(
-            result, ['Got it!', f'Task #{task_id}: TEST_TODO\tStatus: done'])
+            result, ['Got it!', f"**Task {task_id}:** TEST_TODO | *Status: done*"])
 
         result = bot.respond("read all")
         self.assertEqual(
-            result[-1], f"Task #{task_id}: TEST_TODO\tStatus: done")
+            result[-1], f"**Task {task_id}:** TEST_TODO | *Status: done*")
 
     def test_3remove(self):
         bot.settings = {
@@ -102,11 +102,11 @@ class TestTodo(unittest.TestCase):
             "reply_to_unknown": True
         }
         result = bot.respond(f"del: {task_id}")
-        self.assertEqual(result, [f"Done. Task #{task_id} was deleted"])
+        self.assertEqual(result, [f"Done. Task {task_id} was deleted"])
 
         result = bot.respond("read all")
         self.assertNotEqual(
-            result[-1], f"Task #{task_id}: TEST_TODO     Status: todo")
+            result[-1], f"**Task {task_id}:** TEST_TODO | *Status: done*")
 
         # Clear counter to keep things clean
         features.todo_list.db_counter_decrement()
