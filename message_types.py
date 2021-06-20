@@ -1,5 +1,6 @@
 # Copyright (C) Ben Carpenter, 2021. Licensed under the MIT license.
 from enum import Enum
+from features.todo_list import clear_list
 
 
 class MessageType(Enum):
@@ -11,6 +12,7 @@ class MessageType(Enum):
     COMPLETE = 5
     DELETE = 6
     INFO = 7
+    CLEAR_LIST = 8
 
 
 message_types = {
@@ -21,7 +23,8 @@ message_types = {
     MessageType.READ: ["what are my todos?", "read all", "what's todo", "what's on my todo list?", ],
     MessageType.COMPLETE: ["complete", "done", "finish"],
     MessageType.DELETE: ["delete", "delete todo", "del"],
-    MessageType.INFO: ["info", "help", "who are you?", "what is this?"]
+    MessageType.INFO: ["info", "help", "who are you?", "what is this?"],
+    MessageType.CLEAR_LIST: ["CLEAR_LIST"]
 }
 
 
@@ -45,5 +48,7 @@ def assign_type(message: str) -> MessageType:
         return MessageType.READ
     elif message in message_types[MessageType.INFO]:
         return MessageType.INFO
+    elif message in message_types[MessageType.CLEAR_LIST]:
+        return MessageType.CLEAR_LIST
     else:
         return None
