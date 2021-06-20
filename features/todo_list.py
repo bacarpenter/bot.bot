@@ -14,6 +14,9 @@ db = firestore.client()
 # Change to change format. Keep id, task, and status
 todo_template = "**Task {id}:** {task} | *Status: {status}*"
 
+# This represents a list of local id's (AKA the one's that the bot spits out, and global id's, AKA the ones stored in the DB)
+todos = []
+
 # Data base functions
 
 
@@ -43,13 +46,18 @@ def db_read_todo(id: int) -> Dict:
 
 
 def db_read_all() -> List:
+    global todos
     """Read all documents from the db. Return as a list of dicts"""
     todos_ref = db.collection('tasks').stream()
-    todos = []
     for todo in todos_ref:
         todos.append(todo.to_dict())
 
     todos.sort(key=lambda i: i['time_stamp'])
+    i = 1
+    for todo in todos:
+        todo['local_id'] = i
+        i += 1
+
     return todos
 
 
