@@ -1,18 +1,34 @@
 # bot.bot
 
-A chatbot based todolist and buddy, built to facilitate other features over time.
+A chatbot based todo list and buddy, built to facilitate other features over time.
 
-## Usage
+## Features
 
-Setting up the bot takes 4 steps. You only need to complete step 1 if you don't need to interact with the bot through discord.
+- Discord Interface
+- CLI Interface
+- To Do List
+
+_And more to come :)_
+
+## Run Locally
 
 ### Step 1: Basics
 
-First, you will need to download the code and install the dependencies. Then, you will change some settings.
+```bash
+  git clone https://github.com/bacarpenter/bot.bot.git
+```
 
-1. `git clone https://github.com/bacarpenter/bot.bot.git` clones the code onto your machine.
-2. `pip install -r requirements.txt` installs the dependance. Note: I suggest that you use a venv to do this.
-3. In the `settings.json`file, update the name that you want to bot to refer to you by. Mine is bacarp04. Then, you can change weather or not the bot should respond to messages it doesn't understand.
+Go to the project directory
+
+```bash
+  cd bot.bot
+```
+
+Install dependencies
+
+```bash
+  python3 -m pip install -r requirements.txt
+```
 
 ### Step 2: Data base
 
@@ -23,18 +39,57 @@ Next, we will set up a data base for your todos. This will be done with firebase
 3. In your project sidebar, click the cog towards the top, select "Project settings"
 4. Select the service accounts tab
 5. Choose "Generate new private key". This will download a .json file.
-6. Copy this file into the source code, under a new directory `secrets/` and name it `firebase-adminsdk.json`
+6. Copy this file into the source code, under the `secrets/` directory and rename it `firebase-adminsdk.json`
 
 Phew, now the database should be setup!
 
 **Optional**: With this step done you can use the bot in it's CLI form. Todo this, run `python3 cli.py`. Make sure to add a todo before you try to read them.
 
-### Step 3: Discord
+### Step 3: Discord setup
 
-To set up the discord bot, please follow [this](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/) tutorial, up until the heading "How to Code a Basic Discord Bot with the discord.py Library". Save the token.
+To set up the discord bot, please follow [this](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/) tutorial, up until the heading "How to Code a Basic Discord Bot with the discord.py Library". Save the token. Then, create a new file, named `discord_token.json` under the `secrets/` directory. Use the following template:
 
-With the bot created, now, you need to set the environment variable, to let the python script access the bot. Do this by running `export TOKEN=[your_token]` where `[your_token]` is the token you copied. Then, to start the bot, you can run `python3 discordInterface.py`
+```json
+{
+  "token": "[TOKEN]"
+}
+```
 
-### Step 4: Hosting
+and fill in `[TOKEN]` with your actual token!
 
-You will probably want to host your bot online. While this can be done anywhere that let's you write python code, I am doing it through [repl.it](https://replit.com), and using one of my always on projects on my Hacker plan.
+### Step 4: Use
+
+Now, you are ready to use the bot. Start talk to it through discord by using
+
+```bash
+python3 discord_interface.py
+```
+
+or, use the CLI with
+
+```bash
+python3 cli.py
+```
+
+## Deployment
+
+To deploy this project, I use repl.it free hacker plan for students. Learn more about setting up a Repl.it [here](https://docs.replit.com/tutorials/01-introduction-to-the-repl-it-ide). And getting your free, time limited, hacker plan [here](https://education.github.com).
+
+Alternatively, any PaaS provider that allows for always online python projects should work just fine!
+
+## Tech Stack
+
+**Client:** Discord
+
+**Server:** Python, Discord.py, Firebase
+
+## Security
+
+Make sure not to share anything in the `secrets/` directory publicly online!
+
+## Acknowledgements
+
+Thank you to...
+
+- [readme.so](https://readme.so) for helping to create this readme.
+- [freecodecamp.org](https://www.freecodecamp.org/newscreate-a-discord-bot-with-python/) for demonstrating how to use discord bots
