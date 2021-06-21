@@ -61,7 +61,7 @@ def db_complete(unique_id):
 
 def db_delete(unique_id):
     """Delete record with unique id of `unique_id`"""
-    db.collection('tasks').document(f"task#{unique_id}").delete()
+    db.collection('tasks').document(f"task #{unique_id}").delete()
 
 
 def db_clear_all():
