@@ -34,9 +34,9 @@ def respond(message) -> List:
     response_methods = {
         MessageType.HELLO: features.pleasantries.hello,
         MessageType.BYE: features.pleasantries.bye,
-        MessageType.NEW_TASK: features.todo_list.new_task,
+        MessageType.NEW_TASK: features.todo_list.new_todo,
         MessageType.THANKS: features.pleasantries.thanks,
-        MessageType.READ: features.todo_list.read,
+        MessageType.READ: features.todo_list.read_all,
         MessageType.COMPLETE: features.todo_list.complete,
         MessageType.DELETE: features.todo_list.delete,
         MessageType.INFO: features.info.info,
