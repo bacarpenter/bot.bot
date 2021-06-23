@@ -1,6 +1,5 @@
 # Copyright (C) Ben Carpenter, 2021. Licensed under the MIT license.
 from enum import Enum
-from features.todo_list import clear_list
 
 
 class MessageType(Enum):
@@ -18,11 +17,11 @@ class MessageType(Enum):
 message_types = {
     MessageType.HELLO: ["hi", "hello", "howdy", "hey", "greetings"],
     MessageType.BYE: ["bye", "latter", "goodnight", "ttyl", "see you soon"],
-    MessageType.NEW_TASK: ["add a todo", "new todo", "todo", "remind me", "to do", "add todo", "add to do"],
+    MessageType.NEW_TASK: ["add a todo", "new todo", "todo", "remind me", "to do", "add todo", "add to do", "n"],
     MessageType.THANKS: ["thanks", "thank you", "thx", "thanks"],
-    MessageType.READ: ["what are my todos?", "read all", "what's todo", "what's on my todo list?", ],
-    MessageType.COMPLETE: ["complete", "done", "finish"],
-    MessageType.DELETE: ["delete", "delete todo", "del"],
+    MessageType.READ: ["what are my todos?", "read all", "what's todo", "what's on my todo list?", "r"],
+    MessageType.COMPLETE: ["complete", "done", "finish", "comp", "c"],
+    MessageType.DELETE: ["delete", "delete todo", "del", "d"],
     MessageType.INFO: ["info", "help", "who are you?", "what is this?"],
     MessageType.CLEAR_LIST: ["CLEAR_LIST"]
 }
