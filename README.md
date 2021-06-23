@@ -93,3 +93,7 @@ Thank you to...
 
 - [readme.so](https://readme.so) for helping to create this readme.
 - [freecodecamp.org](https://www.freecodecamp.org/newscreate-a-discord-bot-with-python/) for demonstrating how to use discord bots
+
+## License
+
+Licensed under the MIT license. [Learn more about the MIT license](https://choosealicense.com/licenses/mit/)
