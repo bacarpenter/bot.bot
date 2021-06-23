@@ -1,11 +1,23 @@
 # Copyright (C) Ben Carpenter, 2021
 
+import os
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import json
 
 # Init DB
-cred = credentials.Certificate("secrets/firebase-adminsdk.json")
+if os.environ.get("CI") == "true":
+    # Should only be run if project is on a CI server. Namely, GitHub actions
+
+    # From https://www.w3schools.com/python/python_json.asp! Thanks W3
+    cred_dict = json.loads(os.environ.get("FIREBASE_ADMINSDK"))
+
+    cred = credentials.Certificate(cred_dict)
+else:
+    # Should be run when most people use the service
+    cred = credentials.Certificate("secrets/firebase-adminsdk.json")
+
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
