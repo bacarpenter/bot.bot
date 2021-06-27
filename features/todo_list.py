@@ -16,11 +16,12 @@ if os.environ.get("CI") == "true":
     cred = credentials.Certificate(cred_dict)
 else:
     # Should be run when most people use the service
-    cred = credentials.Certificate("secrets/firebase-adminsdk.json")
-
-firebase_admin.initialize_app(cred)
-
-db = firestore.client()
+    try:
+        cred = credentials.Certificate("secrets/firebase-adminsdk.json")
+        firebase_admin.initialize_app(cred)
+        db = firestore.client()
+    except FileNotFoundError:
+        print("Setup needed")
 
 
 # List of todo's. Updated by db_read_all()
