@@ -19,6 +19,8 @@ def init_db():
         cred_dict = json.loads(os.environ.get("FIREBASE_ADMINSDK"))
 
         cred = credentials.Certificate(cred_dict)
+        firebase_admin.initialize_app(cred)
+        db = firestore.client()
     else:
         # Should be run when most people use the service
         try:
