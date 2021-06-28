@@ -6,21 +6,29 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import json
 
-# Init DB
-if os.environ.get("CI") == "true":
-    # Should only be run if project is on a CI server. Namely, GitHub actions
+db = None
 
-    # From https://www.w3schools.com/python/python_json.asp! Thanks W3
-    cred_dict = json.loads(os.environ.get("FIREBASE_ADMINSDK"))
 
-    cred = credentials.Certificate(cred_dict)
-else:
-    # Should be run when most people use the service
-    cred = credentials.Certificate("secrets/firebase-adminsdk.json")
+def init_db():
+   # Init DB
+    global db
+    if os.environ.get("CI") == "true":
+        # Should only be run if project is on a CI server. Namely, GitHub actions
 
-firebase_admin.initialize_app(cred)
+        # From https://www.w3schools.com/python/python_json.asp! Thanks W3
+        cred_dict = json.loads(os.environ.get("FIREBASE_ADMINSDK"))
 
-db = firestore.client()
+        cred = credentials.Certificate(cred_dict)
+        firebase_admin.initialize_app(cred)
+        db = firestore.client()
+    else:
+        # Should be run when most people use the service
+        try:
+            cred = credentials.Certificate("secrets/firebase-adminsdk.json")
+            firebase_admin.initialize_app(cred)
+            db = firestore.client()
+        except FileNotFoundError:
+            print("Setup needed")
 
 
 # List of todo's. Updated by db_read_all()
@@ -32,6 +40,8 @@ todos = []
 
 def db_add_todo(todo):
     """Add the given todo as a record in the database"""
+    if not db:
+        init_db()
     # Get next todo id
     next_id = int(db.collection('counter').document(
         'counter').get().to_dict()['counter']) + 1
@@ -50,6 +60,8 @@ def db_add_todo(todo):
 def db_read_all():
     """Set todos to a list of dictionaries, sorted by date-time created, from the database"""
 
+    if not db:
+        init_db()
     global todos  # Allow me to edit todos directly
     todos = []  # Wipe todos blank
 
@@ -67,17 +79,23 @@ def db_read_all():
 
 def db_complete(unique_id):
     """Mark task with id of `unique_id` as done."""
+    if not db:
+        init_db()
     todo_ref = db.collection('tasks').document(f"task #{unique_id}")
     todo_ref.set({'done': True, }, merge=True)
 
 
 def db_delete(unique_id):
     """Delete record with unique id of `unique_id`"""
+    if not db:
+        init_db()
     db.collection('tasks').document(f"task #{unique_id}").delete()
 
 
 def db_clear_all():
     """Deletes all todo records in the data base, leaving you with a blank slate."""
+    if not db:
+        init_db()
     docs = db.collection('tasks').stream()
 
     # From firebase SDK, https://firebase.google.com/docs/firestore/manage-data/delete-data#python
@@ -89,6 +107,8 @@ def db_clear_all():
 
 def db_counter_decrement():
     """Decrement counter for use by testing"""
+    if not db:
+        init_db()
     db.collection('counter').document('counter').set({'counter': int(db.collection('counter').document(
         'counter').get().to_dict()['counter']) - 1})
 

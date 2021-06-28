@@ -3,6 +3,7 @@
 import features.todo_list
 import features.pleasantries
 import features.info
+import features.setup
 from typing import List
 from message_types import MessageType, assign_type
 
@@ -12,16 +13,24 @@ import json
 with open("settings.json") as settings_JSON:
     settings = json.load(settings_JSON)
 
-next_require_confirmation: bool = False
-
 
 def respond(message) -> List:
+    global settings
     """
     Take in the text of a message, and come up with the bot's responce to it.
     Because Python 3.9 does not have a switch statement (why? 😫) I will be using this
     as a "disbatch" station, for context specific methods. That way, I can avoid a very
     long elif statement, and seporate out functions.
     """
+
+    # Bot setup subsection:
+    if settings.get('setup'):
+        # Refresh settings
+        with open("settings.json") as settings_JSON:
+            settings = json.load(settings_JSON)
+        if settings.get('setup'):
+            return features.setup.bot_setup(message, settings)
+
     message_type = assign_type(message)
 
     if message_type is None:
