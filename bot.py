@@ -15,6 +15,7 @@ with open("settings.json") as settings_JSON:
 
 
 def respond(message) -> List:
+    global settings
     """
     Take in the text of a message, and come up with the bot's responce to it.
     Because Python 3.9 does not have a switch statement (why? 😫) I will be using this
@@ -24,7 +25,11 @@ def respond(message) -> List:
 
     # Bot setup subsection:
     if settings.get('setup'):
-        return features.setup.bot_setup(message, settings)
+        # Refresh settings
+        with open("settings.json") as settings_JSON:
+            settings = json.load(settings_JSON)
+        if settings.get('setup'):
+            return features.setup.bot_setup(message, settings)
 
     message_type = assign_type(message)
 
