@@ -142,6 +142,3 @@ secrets/*
 
 # VSCode
 .vscode/
-
-# Settings
-settings.json
