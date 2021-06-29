@@ -10,9 +10,9 @@ A chatbot based todo list and buddy, built to facilitate other features over tim
 
 _And more to come :)_
 
-## Run Locally
+## Install
 
-### Step 1: Basics
+First, clone the code onto your machine.
 
 ```bash
   git clone https://github.com/bacarpenter/bot.bot.git
@@ -24,37 +24,17 @@ Go to the project directory
   cd bot.bot
 ```
 
-Install dependencies
+Install the dependencies
 
 ```bash
   python3 -m pip install -r requirements.txt
 ```
 
-### Step 2: Discord setup
-
-To set up the discord bot, please follow [this](https://www.freecodecamp.org/news/create-a-discord-bot-with-python/) tutorial, up until the heading "How to Code a Basic Discord Bot with the discord.py Library". Save the token. Then, create a new file, named `discord_token.json` under the `secrets/` directory. Use the following template:
-
-```json
-{
-  "token": "[TOKEN]"
-}
-```
-
-### Step 4: Use
-
-Now, you are ready to use the bot. Start talk to it through discord by using
-
-```bash
-python3 discord_interface.py
-```
-
-or, use the CLI with
+Then, use the CLI bot to walk you through the rest of the setup.
 
 ```bash
 python3 cli.py
 ```
-
-The bot will walk you through the rest of the setup.
 
 ## Deployment
 
@@ -76,7 +56,7 @@ Make sure not to share anything in the `secrets/` directory publicly online!
 
 Thank you to...
 
-- [readme.so](https://readme.so) for helping to create this readme.
+- [readme.so](https://readme.so) for helping to create this readme
 - [freecodecamp.org](https://www.freecodecamp.org/newscreate-a-discord-bot-with-python/) for demonstrating how to use discord bots
 
 ## License
