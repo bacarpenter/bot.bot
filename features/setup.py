@@ -5,21 +5,24 @@ setup_stage = 0
 
 
 def bot_setup(message, settings):
+    """A guided setup for the bot."""
     global setup_stage
     rList = []
-    if setup_stage == 0:
+    if setup_stage == 0:  # Name
         rList.append(
             "Hello! I'm bot.bot. I can't wait to help you out, but first we need to get some thing's set up.")
         rList.append("First, what's your name?")
         setup_stage += 1
         return rList
-    elif setup_stage == 1:
+
+    elif setup_stage == 1:  # Reply to unknown
         write_setting("user_name", message)
         rList.append(f"Awesome! Hello {message}")
         rList.append("Next, would you like me to reply to messages I don't understand? Or just ignore them? I will confirm every message I do understand either way. (yes/No)")
         setup_stage += 1
         return rList
-    elif setup_stage == 2:
+
+    elif setup_stage == 2:  # Firestore pt 1
         if message.lower() == 'no':
             write_setting("reply_to_unknown", False)
         else:
@@ -35,7 +38,8 @@ def bot_setup(message, settings):
         rList.append("Ready to keep going? (Yes/no)")
         setup_stage += 1
         return rList
-    elif setup_stage == 3:
+
+    elif setup_stage == 3:  # Firestore pt 2
         if message == "no":
             rList.append(
                 "Oh no. I'm sorry to hear somethings not right. Please create an issue at https://github.com/bacarpenter/bot.bot/issues.")
@@ -50,7 +54,8 @@ def bot_setup(message, settings):
         rList.append("Ready to keep going? (Yes/no)")
         setup_stage += 1
         return rList
-    elif setup_stage == 4:
+
+    elif setup_stage == 4:  # Firestore pt 3
         if message == "no":
             rList.append(
                 "Oh no. I'm sorry to hear somethings not right. Please create an issue at https://github.com/bacarpenter/bot.bot/issues. Setup will now restart. Send any message to start again.")
@@ -66,7 +71,11 @@ def bot_setup(message, settings):
         setup_stage += 1
         return rList
 
-    elif setup_stage == 5:
+    elif setup_stage == 5:  # Discord
+        # TODO Add Discord setup
+        setup_stage += 1
+
+    elif setup_stage == 6:  # Get started
         rList.append(
             "Perfect. Let's get to work. Make your first todo with `todo: [some todo]`. It's a pleasure to meet you.")
         write_setting("setup", False)
@@ -74,6 +83,10 @@ def bot_setup(message, settings):
 
 
 def write_setting(key, value):
+    """Write a setting with given key and value to `settings.json` on disk."""
+
+    # Thanks to Kite for help with this code. https://www.kite.com/python/answers/how-to-update-a-json-file-in-python
+
     with open("settings.json", "r") as settingsJSON:
         json_object = json.load(settingsJSON)
 
