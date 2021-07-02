@@ -94,10 +94,15 @@ def stage_4(message):
 
 
 def stage_5(message):
-    rList = []
     if message == "no":
         return somethings_wrong()
-    rList.append("Now, setup your discord bot")  # FIXME add discord setup!
+    rList = ["Now, setup your discord bot"]  # FIXME add discord setup!
+    return rList
+
+
+def stage_6(message):
+    rList = ["Perfect. Let's get to work. Make your first todo with `todo: [some todo]`. It's a pleasure to meet you."]
+    write_setting("setup", False)
     return rList
 
 
@@ -117,5 +122,5 @@ def write_setting(key, value):
 
 def somethings_wrong():
     global setup_stage
-    setup_stage = 0
+    setup_stage = -1
     return ["Oh no. I'm sorry to hear somethings not right. Please create an issue at https://github.com/bacarpenter/bot.bot/issues."]
